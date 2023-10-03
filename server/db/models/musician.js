@@ -11,12 +11,22 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // Your code here
+      this.belongsToMany(models.Instrument, {
+        through: models.MusicianInstrument,
+        foreignKey: 'musicianId',
+        otherKey: 'instrumentId'
+      })
+      this.belongsTo(models.Band, {foreignKey: 'bandId'});
     }
   };
   Musician.init({
     firstName: DataTypes.STRING,
     lastName: DataTypes.STRING,
-    bandId: DataTypes.INTEGER
+    bandId: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
+
   }, {
     sequelize,
     modelName: 'Musician',
